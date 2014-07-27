@@ -29,11 +29,14 @@ class Mail():
 			"subject": self.subject,
 			"text": self.body
 		}
-		response = self.sendPost(apiURI=apiURI, data=data, auth=auth)
-		if response.json().get('id'):
+		response = self.sendPost(apiURI=apiURI, data=data, auth=auth).json()
+		if response.get('id'):
 			return {"success": "true"}
 		else:
-			return {"success": "false"}
+			return {
+				"success": "false", 
+				"reason": "Mailgun: " + response.get('message')
+				}
 
 
 	def sendMandrill(self):
@@ -56,11 +59,13 @@ class Mail():
 			}
 		}
 		data = json.dumps(data)
-		response = self.sendPost(apiURI=apiURI, data=data, headers=headers)
-		if (response.json()[0].get('status') == 'sent'):
+		response = self.sendPost(apiURI=apiURI, data=data, headers=headers).json()[0]
+		if (response.get('status') == 'sent'):
 			return { "success": "true" }
 		else:
-			return { "success": "false" }
+			return {
+				"success": "false",
+				"reason": "Mandrill: " + response.get('status')}
 
 	def sendPost(self, apiURI, data, auth=None, headers=None):
 		return requests.post(apiURI, auth=auth, data=data, headers=headers)
