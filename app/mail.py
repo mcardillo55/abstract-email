@@ -16,9 +16,9 @@ class Mail():
 		return email
 		raise ValueError('Email address is not valid syntax')
 
+		
 	def sendMailgun(self):
-		print "MAILGUN"
-		apiURI = 'https://api.mailgun.net/v2/sandbox0c16f324eefd44e29b740bc7e35d8042.mailgun.org/messages'
+		apiURI = app.config['MAILGUN_API']
 		auth = ('api', app.config.get('MAILGUN_KEY'))
 		data = {
 			"from": self.from_name + " <" + self.from_addr + ">",
@@ -34,9 +34,8 @@ class Mail():
 
 
 	def sendMandrill(self):
-		print "MANDRILL"
 		headers = {'content-type': 'application/json'}
-		apiURI = 'https://mandrillapp.com/api/1.0/messages/send.json'
+		apiURI = app.config['MANDRILL_API']
 		data = {
 			"key": app.config.get('MANDRILL_KEY'),
 			"message": {
