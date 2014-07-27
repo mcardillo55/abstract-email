@@ -1,5 +1,6 @@
 from flask import Markup
 from app import app
+import re
 import json
 import requests
 
@@ -13,8 +14,10 @@ class Mail():
 		self.body = Markup(data['body']).striptags()
 
 	def isValidEmail(self, email):
-		return email
-		raise ValueError('Email address is not valid syntax')
+		if re.match("[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}", email, flags=re.IGNORECASE):
+			return email
+		else:
+			raise ValueError('Email address is not valid syntax')
 
 		
 	def sendMailgun(self):
