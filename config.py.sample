@@ -1,3 +1,8 @@
+"""
+config.py.sample
+
+"""
+
 MAILGUN_API = ""
 MAILGUN_KEY = ""
 MANDRILL_API = ""
