@@ -34,7 +34,7 @@ class EmailAbstractTestCase(unittest.TestCase):
         assert '"success": "true"' in rv.data
 
     def test_success_default(self):
-        del app.config['PROVIDER']
+        app.config.pop('PROVIDER', None)
         rv = self.app.post('/email', data=json.dumps(self.goodParams), content_type="application/json")
         assert '"success": "true"' in rv.data
 
