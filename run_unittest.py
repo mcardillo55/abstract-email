@@ -33,6 +33,11 @@ class EmailAbstractTestCase(unittest.TestCase):
         rv = self.app.post('/email', data=json.dumps(self.goodParams), content_type="application/json")
         assert '"success": "true"' in rv.data
 
+    def test_success_default(self):
+        del app.config['PROVIDER']
+        rv = self.app.post('/email', data=json.dumps(self.goodParams), content_type="application/json")
+        assert '"success": "true"' in rv.data
+
     def test_post_missing_param(self):
         tempParams = copy.deepcopy(self.goodParams)
         del tempParams['body']

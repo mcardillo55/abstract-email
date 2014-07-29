@@ -87,7 +87,7 @@ class Mail():
         return requests.post(apiURI, auth=auth, data=data, headers=headers)
 
     def send(self):
-        if app.config['PROVIDER'] == "mailgun":
-            return self.sendMailgun()
-        elif app.config['PROVIDER'] == "mandrill":
+        if app.config.get('PROVIDER') == "mandrill":
             return self.sendMandrill()
+        else:
+            return self.sendMailgun()
